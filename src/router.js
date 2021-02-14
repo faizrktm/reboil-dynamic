@@ -14,9 +14,15 @@ export default function Router(){
     <BrowserRouter>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route component={NotFound} />
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/about">
+            <About />
+          </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
         </Switch>
       </Suspense>
     </BrowserRouter>

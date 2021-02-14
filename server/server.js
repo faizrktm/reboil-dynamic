@@ -18,6 +18,12 @@ fastify.setNotFoundHandler((_req, res) => {
   }
 });
 
+fastify.register(require('fastify-static'), {
+  root: path.join(__dirname, '..', 'public/assets'),
+  prefix: '/assets/',
+  decorateReply: false // the reply decorator has been added by the first plugin registration
+})
+
 fastify.listen(3000, function(err, address){
   if(err){
     fastify.log.error(err);

@@ -3,6 +3,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
+const CompressionsPlugin = require('compression-webpack-plugin');
 const webpack = require('webpack');
 
 const IS_DEV = process.env.NODE_ENV !== 'production';
@@ -35,6 +37,17 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.ANALYZE ? 'server' : 'disabled'
     }),
+    new CompressionsPlugin({
+      filename: '[name].gz[query]',
+      algorithm: 'gzip',
+      test: /\.(js|css|html)$/,
+      minRatio: 0.7,
+    }),
+    new BrotliPlugin({
+			asset: '[path].br[query]',
+			test: /\.(js|css|html)$/,
+			minRatio: 0.7
+		}),
     IS_DEV && new webpack.HotModuleReplacementPlugin(),
     IS_DEV && new ReactRefreshWebpackPlugin()
   ].filter(Boolean),

@@ -1,4 +1,5 @@
 const { userAgentPattern, excludeUrlPattern } = require('../constant');
+const SSR = require('../utils/ssr');
 
 async function checkCrawler(request, reply) {
   const { 
@@ -22,8 +23,12 @@ async function checkCrawler(request, reply) {
   ) {
     return;
   }
+
+  if(!SSR.isBrowserExist){
+    await SSR.initialize();
+  }
   
-  const { html, status, ttRenderMs } = await require('../utils/ssr')(`${protocol}://${host}${url}`);
+  const { html, status, ttRenderMs } = await SSR.render(`${protocol}://${host}${url}`);
 
   reply
     .code(status)

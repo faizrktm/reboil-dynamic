@@ -9,18 +9,17 @@ const fastify = require('fastify')({
 
 fastify.register(dynamicRender);
 fastify.register(fastifyStatic, {
-  root: path.join(__dirname, '..', 'dist'),
-  prefix: '/'
+  root: path.join(__dirname, '..', 'dist')
 });
 fastify.register(helmet);
 
+/**
+ * to handle direct access url since we serve 
+ * static file that only recognize root path.
+ * e.g: http://localhost:3000/about
+ * */
 fastify.setNotFoundHandler((_req, res) => {
-  try {
-    res.sendFile('index.html');
-  }
-  catch (e) {
-    console.log(e);
-  }
+  res.sendFile('index.html');
 });
 
 fastify.register(fastifyStatic, {

@@ -81,6 +81,7 @@ class Renderer {
   
       const html = await page.content(); // serialized HTML of page DOM.
       const ttRenderMs = Date.now() - start;
+      await page.close();
     
       return { html, status: statusCode, ttRenderMs };  
     } catch (error) {

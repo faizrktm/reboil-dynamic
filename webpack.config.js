@@ -37,13 +37,13 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.ANALYZE ? 'server' : 'disabled'
     }),
-    new CompressionsPlugin({
+    !IS_DEV && new CompressionsPlugin({
       filename: '[name].gz[query]',
       algorithm: 'gzip',
       test: /\.(js|css|html)$/,
       minRatio: 0.7,
     }),
-    new BrotliPlugin({
+    !IS_DEV && new BrotliPlugin({
 			asset: '[path].br[query]',
 			test: /\.(js|css|html)$/,
 			minRatio: 0.7
@@ -55,6 +55,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   devServer: {
+    contentBase: path.join(__dirname, 'public/assets'),
     hot: true,
     liveReload: false,
     port: 3000,

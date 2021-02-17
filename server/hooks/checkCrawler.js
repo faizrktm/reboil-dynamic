@@ -33,6 +33,7 @@ async function checkCrawler(request, reply) {
   reply
     .code(status)
     .header('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`)
+    .header('Content-Type', 'text/html; charset=UTF-8')
     .send(html);
 
   return reply;

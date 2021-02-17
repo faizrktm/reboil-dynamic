@@ -1,7 +1,6 @@
 const fp = require('fastify-plugin');
 const checkCrawler = require('../hooks/checkCrawler');
 
-let puppeterInstance = null;
 module.exports = fp(function (fastify, _options, next) {
   fastify.addHook('onRequest', checkCrawler);
 

@@ -3,11 +3,13 @@ class Renderer {
     console.log('Initialize Browser');
     const browser = await require('puppeteer').launch({ headless: true });
 
-    browser.on('disconnect', () => {
+    browser.on('disconnected', () => {
+      console.log('Browser disconnected, try to re-initialize');
       this.initialize();
     });
 
-    this.browser = browser;
+    // Initialize incognito browser
+    this.browser = await browser.createIncognitoBrowserContext();
   }
 
   get isBrowserExist() {
@@ -39,8 +41,15 @@ class Renderer {
         // 3. Pass through all other requests.
         req.continue();
       });
+
+      let response = null;
   
-      const response = await page.goto(url, { waitUntil: 'networkidle0' });
+      try {
+        response = await page.goto(url, { waitUntil: 'networkidle0' });
+      } catch (error) {
+        console.error(error);
+      }
+      
       if(!response){
         console.error('response does not exist');
         // This should only occur when the page is about:blank. See

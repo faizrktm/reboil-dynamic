@@ -5,13 +5,23 @@ module.exports = (api) => {
     presets: [
       '@babel/preset-env',
       [
-        "@babel/preset-react",
+        '@babel/preset-react',
         {
-          "runtime": "automatic"
-        }
-      ]
+          runtime: 'automatic',
+        },
+      ],
+      '@babel/preset-typescript',
+    ],
+    plugins: [
+      [
+        '@babel/plugin-transform-runtime',
+        {
+          regenerator: true,
+        },
+      ],
+      '@babel/plugin-syntax-dynamic-import',
     ],
     // Applies the react-refresh Babel plugin on non-production modes only
-    ...(!api.env('production') && { plugins: ['react-refresh/babel'] }),
+    ...(!api.env('production') && {plugins: ['react-refresh/babel']}),
   };
 };

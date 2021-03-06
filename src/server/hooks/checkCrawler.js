@@ -1,14 +1,11 @@
-const { userAgentPattern, excludeUrlPattern } = require('../constant');
+const {userAgentPattern, excludeUrlPattern} = require('../constant');
 const SSR = require('../utils/ssr');
 
 async function checkCrawler(request, reply) {
-  const { 
-    headers: {
-      host,
-      ['user-agent']: userAgent 
-    },
+  const {
+    headers: {host, ['user-agent']: userAgent},
     url,
-    protocol
+    protocol,
   } = request;
 
   /**
@@ -16,23 +13,28 @@ async function checkCrawler(request, reply) {
    * or its trying to request assets (js, css, image, etc) instead of page
    * If so, break the process and continue serving static site
    */
-  if(
+  if (
     userAgent === undefined ||
-    !userAgentPattern.test(userAgent) || 
+    !userAgentPattern.test(userAgent) ||
     excludeUrlPattern.test(url)
   ) {
     return;
   }
 
-  if(!SSR.isBrowserExist){
+  if (!SSR.isBrowserExist) {
     await SSR.initialize();
   }
-  
-  const { html, status, ttRenderMs } = await SSR.render(`${protocol}://${host}${url}`);
+
+  const {html, status, ttRenderMs} = await SSR.render(
+    `${protocol}://${host}${url}`,
+  );
 
   reply
     .code(status)
-    .header('Server-Timing', `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`)
+    .header(
+      'Server-Timing',
+      `Prerender;dur=${ttRenderMs};desc="Headless render time (ms)"`,
+    )
     .header('Content-Type', 'text/html; charset=UTF-8')
     .send(html);
 

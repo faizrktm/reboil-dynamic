@@ -1,15 +1,11 @@
-import { lazy, Suspense } from "react";
-import {
-  BrowserRouter,
-  Switch,
-  Route
-} from "react-router-dom";
+import {lazy, Suspense} from 'react';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 const Home = lazy(() => import('./pages/index'));
 const About = lazy(() => import('./pages/about'));
 const NotFound = lazy(() => import('./pages/notfound'));
 
-export default function Router(){
+export default function Router() {
   return (
     <BrowserRouter>
       <Suspense fallback={<div>Loading...</div>}>
@@ -26,5 +22,5 @@ export default function Router(){
         </Switch>
       </Suspense>
     </BrowserRouter>
-  )
+  );
 }

@@ -66,5 +66,5 @@ const staticFileExtensions = [
 
 module.exports = {
   userAgentPattern: new RegExp(botUserAgents.join('|'), 'i'),
-  excludeUrlPattern: new RegExp(`\\.(${staticFileExtensions.join('|')})$`, 'i')
+  excludeUrlPattern: new RegExp(`\\.(${staticFileExtensions.join('|')})$`, 'i'),
 };

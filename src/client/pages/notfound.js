@@ -1,6 +1,6 @@
-import {Helmet} from "react-helmet";
+import {Helmet} from 'react-helmet';
 
-export default function NotFound(){
+export default function NotFound() {
   return (
     <>
       <Helmet>
@@ -9,5 +9,5 @@ export default function NotFound(){
       </Helmet>
       <div>404 not found</div>
     </>
-  )
+  );
 }

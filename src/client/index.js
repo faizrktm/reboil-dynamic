@@ -1,4 +1,4 @@
-import { hydrate, render } from 'react-dom';
+import {hydrate, render} from 'react-dom';
 import Router from './router';
 
 const rootElement = document.getElementById('reboil-root');

@@ -9,6 +9,7 @@
 5. React Router V5
 6. React Helmet to manage document head
 7. Fastify as a web server
+8. Static Analysis Tools Configured: ESLint, Prettier, Typescript, Husky and Lint Staged.
 
 How the dynamic rendering work:
 1. Fastify check for user agent and type of the request (if its requesting document or assets) on every request.

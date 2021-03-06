@@ -1,12 +1,12 @@
-import * as React from 'react';
+import {lazy, Suspense, VFC} from 'react';
 import {Helmet} from 'react-helmet';
 
 import ClassComponent from '../components/ClassComponent';
 import FunctionComponent from '../components/FunctionComponent';
 
-const LazyComponent = React.lazy(() => import('../components/LazyComponent'));
+const LazyComponent = lazy(() => import('../components/LazyComponent'));
 
-const Homepage: React.VFC = () => {
+const Homepage: VFC = () => {
   return (
     <>
       <Helmet>
@@ -19,9 +19,9 @@ const Homepage: React.VFC = () => {
       <div>
         <ClassComponent />
         <FunctionComponent />
-        <React.Suspense fallback={<div>loading</div>}>
+        <Suspense fallback={<div>loading</div>}>
           <LazyComponent />
-        </React.Suspense>
+        </Suspense>
       </div>
     </>
   );

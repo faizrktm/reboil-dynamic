@@ -1,6 +1,7 @@
+import {VFC} from 'react';
 import {Helmet} from 'react-helmet';
 
-export default function About() {
+const About: VFC = () => {
   return (
     <>
       <Helmet>
@@ -13,4 +14,6 @@ export default function About() {
       <div>Im all about page.</div>
     </>
   );
-}
+};
+
+export default About;

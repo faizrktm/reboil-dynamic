@@ -1,6 +1,7 @@
+import {VFC} from 'react';
 import {Helmet} from 'react-helmet';
 
-export default function NotFound() {
+const NotFound: VFC = () => {
   return (
     <>
       <Helmet>
@@ -10,4 +11,6 @@ export default function NotFound() {
       <div>404 not found</div>
     </>
   );
-}
+};
+
+export default NotFound;

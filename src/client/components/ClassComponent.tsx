@@ -1,7 +1,7 @@
 import {Component} from 'react';
 
 class ClassComponent extends Component {
-  render() {
+  render(): JSX.Element {
     return <div>This is class based component</div>;
   }
 }

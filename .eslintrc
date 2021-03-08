@@ -39,7 +39,7 @@
     {
       "files": "src/client/**/*.+(ts|tsx)",
       "parserOptions": {
-        "project": "./tsconfig.webpack.json"
+        "project": "./tsconfig.json"
       }
     },
     {

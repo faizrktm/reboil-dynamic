@@ -1,5 +1,6 @@
 {
   "name": "reboil-dynamic",
+  "sideEffects": false,
   "version": "1.0.0",
   "description": "Dynamic Rendering Boilerplate for Educational Purposes",
   "private": true,
@@ -52,7 +53,6 @@
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "react-refresh": "^0.9.0",
-    "ts-loader": "^8.0.17",
     "typescript": "^4.2.3",
     "webpack": "^5.22.0",
     "webpack-bundle-analyzer": "^4.4.0",
@@ -72,16 +72,9 @@
     "check-types": "tsc --noEmit true",
     "validate": "yarn check-types && yarn prettier:check && yarn lint"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

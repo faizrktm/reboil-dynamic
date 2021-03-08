@@ -1,15 +1,23 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "target": "esnext",
     "module": "esnext",
-    "target": "es5",
+    "strict": true,
     "jsx": "react-jsx",
     "sourceMap": true,
     "skipLibCheck": true,
-    "strict": true,
     "paths": {
       "test-utils": ["./test/test-utils"]
-    },
-    "moduleResolution": "node"
+    }
   },
+  "include": ["src/client/**/*"],
   "exclude": ["node_modules", "dist"]
 }

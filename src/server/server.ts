@@ -1,15 +1,16 @@
-const path = require('path');
-const fastifyStatic = require('fastify-static');
-const helmet = require('fastify-helmet');
-const dynamicRender = require('./plugins/fastify-dynamic-render');
+import path from 'path';
+import fastifyStatic from 'fastify-static';
+import helmet from 'fastify-helmet';
+import dynamicRenderer from './plugins/fastify-dynamic-render';
+import fastifyMod from 'fastify';
 
-const fastify = require('fastify')({
+const fastify = fastifyMod({
   logger: true,
 });
 
-fastify.register(dynamicRender);
+fastify.register(dynamicRenderer);
 fastify.register(fastifyStatic, {
-  root: path.join(__dirname, '..', '..', 'dist'),
+  root: path.join(__dirname, '../client'),
 });
 fastify.register(helmet);
 
@@ -23,14 +24,14 @@ fastify.setNotFoundHandler((_req, res) => {
 });
 
 fastify.register(fastifyStatic, {
-  root: path.join(__dirname, '..', 'public/assets'),
+  root: path.join(__dirname, '../../public/assets'),
   prefix: '/assets/',
   decorateReply: false, // the reply decorator has been added by the first plugin registration
 });
 
 fastify.listen(3000, function (err, address) {
   if (err) {
-    fastify.log.error(err);
+    fastify.log.error(err.message);
     process.exit(1);
   }
   fastify.log.info(`server listening on ${address}`);

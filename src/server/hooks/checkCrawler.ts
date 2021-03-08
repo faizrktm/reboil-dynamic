@@ -1,7 +1,12 @@
-const {userAgentPattern, excludeUrlPattern} = require('../constant');
-const SSR = require('../utils/ssr');
+import {FastifyRequest, FastifyReply} from 'fastify';
 
-async function checkCrawler(request, reply) {
+import {userAgentPattern, excludeUrlPattern} from '../constant';
+import SSR from '../utils/ssr';
+
+async function checkCrawler(
+  request: FastifyRequest,
+  reply: FastifyReply,
+): Promise<void> {
   const {
     headers: {host, ['user-agent']: userAgent},
     url,
@@ -37,8 +42,6 @@ async function checkCrawler(request, reply) {
     )
     .header('Content-Type', 'text/html; charset=UTF-8')
     .send(html);
-
-  return reply;
 }
 
-module.exports = checkCrawler;
+export default checkCrawler;

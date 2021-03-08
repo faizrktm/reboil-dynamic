@@ -64,7 +64,8 @@ const staticFileExtensions = [
   'zip',
 ];
 
-module.exports = {
-  userAgentPattern: new RegExp(botUserAgents.join('|'), 'i'),
-  excludeUrlPattern: new RegExp(`\\.(${staticFileExtensions.join('|')})$`, 'i'),
-};
+export const userAgentPattern = new RegExp(botUserAgents.join('|'), 'i');
+export const excludeUrlPattern = new RegExp(
+  `\\.(${staticFileExtensions.join('|')})$`,
+  'i',
+);

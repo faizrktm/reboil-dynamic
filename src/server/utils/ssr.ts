@@ -1,7 +1,45 @@
+import {BrowserContext, HTTPRequest} from 'puppeteer';
+
+interface RenderResult {
+  html: string | null;
+  status: number;
+  ttRenderMs: number;
+}
+
+const onRequest = (req: HTTPRequest) => {
+  // 2. Ignore requests for resources that don't produce DOM
+  // (images, stylesheets, media).
+  const allowlist = ['document', 'script', 'xhr', 'fetch'];
+  if (allowlist.indexOf(req.resourceType()) < 0) {
+    req.abort();
+    return;
+  }
+
+  // Don't load Google Analytics lib requests so pageviews aren't 2x.
+  const blocklist = [
+    'www.google-analytics.com',
+    '/gtag/js',
+    'ga.js',
+    'analytics.js',
+  ];
+  if (blocklist.find((regex) => req.url().match(regex))) {
+    req.abort();
+    return;
+  }
+
+  // 3. Pass through all other requests.
+  req.continue();
+};
+
 class Renderer {
-  async initialize() {
+  browser: BrowserContext | null = null;
+
+  async initialize(): Promise<void> {
     console.log('Initialize Browser');
-    const browser = await require('puppeteer').launch({headless: true});
+    const puppeteer = await import('puppeteer').then(
+      (module) => module.default,
+    );
+    const browser = await puppeteer.launch({headless: true});
 
     browser.on('disconnected', () => {
       console.log('Browser disconnected, try to re-initialize');
@@ -16,35 +54,23 @@ class Renderer {
     return !!this.browser;
   }
 
-  async render(url) {
+  async render(url: string): Promise<RenderResult> {
     const start = Date.now();
-    const page = await this.browser.newPage();
+    const page = await this.browser?.newPage();
+
+    if (!page) {
+      const ttRenderMs = Date.now() - start;
+      return {
+        html: null,
+        status: 500,
+        ttRenderMs,
+      };
+    }
 
     // 1. Intercept network requests.
     await page.setRequestInterception(true);
 
-    page.on('request', (req) => {
-      // 2. Ignore requests for resources that don't produce DOM
-      // (images, stylesheets, media).
-      const allowlist = ['document', 'script', 'xhr', 'fetch'];
-      if (allowlist.indexOf(req.resourceType()) < 0) {
-        return req.abort();
-      }
-
-      // Don't load Google Analytics lib requests so pageviews aren't 2x.
-      const blocklist = [
-        'www.google-analytics.com',
-        '/gtag/js',
-        'ga.js',
-        'analytics.js',
-      ];
-      if (blocklist.find((regex) => req.url().match(regex))) {
-        return req.abort();
-      }
-
-      // 3. Pass through all other requests.
-      req.continue();
-    });
+    page.on('request', onRequest);
 
     let response = null;
 
@@ -79,7 +105,9 @@ class Renderer {
       .$eval('meta[name="render:status_code"]', (element) => {
         return parseInt(element.getAttribute('content') || '');
       })
-      .catch(() => {});
+      .catch(() => {
+        //
+      });
 
     // On a repeat visit to the same origin, browser cache is enabled, so we may
     // encounter a 304 Not Modified. Instead we'll treat this as a 200 OK.
@@ -100,4 +128,4 @@ class Renderer {
   }
 }
 
-module.exports = new Renderer();
+export default new Renderer();

@@ -61,7 +61,7 @@
   "scripts": {
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "prettier": "prettier --ignore-path .gitignore \"**/*.+(js|jsx|json|ts|tsx)\"",
-    "prettier:format": "yarn prettier  --write",
+    "prettier:format": "yarn prettier --write",
     "prettier:check": "yarn prettier --list-different",
     "client:test": "jest",
     "client:dev": "webpack serve",

@@ -1,5 +1,6 @@
 import {VFC} from 'react';
 import {Helmet} from 'react-helmet';
+import AboutComponent from '../components/about/AboutComponent';
 
 const About: VFC = () => {
   return (
@@ -11,7 +12,7 @@ const About: VFC = () => {
           content="This is the about page for ReactBoilerplate Dynamic Rendering"
         />
       </Helmet>
-      <div>Im all about page.</div>
+      <AboutComponent />
     </>
   );
 };

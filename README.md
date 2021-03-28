@@ -11,6 +11,7 @@ Reboil dynamic is educational purpose project that have simple easy to understan
 7. Fastify as a web server
 8. Tools configured: ESLint, Prettier, Typescript, Husky and Lint Staged.
 9. Testing with Jest and React Testing Library
+10. CSS Support with [vanilla-extract](https://github.com/seek-oss/vanilla-extract)!
 
 How the dynamic rendering work:
 1. Fastify check for user agent and type of the request (if its requesting document or assets) on every request.

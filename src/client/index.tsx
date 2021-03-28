@@ -1,5 +1,6 @@
 import {hydrate, render} from 'react-dom';
 import Router from './router';
+import './styles/normalize.css';
 
 const rootElement: HTMLElement | null = document.getElementById('reboil-root');
 

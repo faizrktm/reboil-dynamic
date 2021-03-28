@@ -4,7 +4,12 @@ import {Helmet} from 'react-helmet';
 import ClassComponent from '../components/ClassComponent';
 import FunctionComponent from '../components/FunctionComponent';
 
-const LazyComponent = lazy(() => import('../components/LazyComponent'));
+const LazyComponent = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "lazy-component" */ '../components/LazyComponent'
+    ),
+);
 
 const Homepage: VFC = () => {
   return (

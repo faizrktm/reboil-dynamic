@@ -1,8 +1,9 @@
 import {Component} from 'react';
+import {container} from './ClassComponent.css';
 
 class ClassComponent extends Component {
   render(): JSX.Element {
-    return <div>This is class based component</div>;
+    return <div className={container}>This is class based component</div>;
   }
 }
 

@@ -8,6 +8,8 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const BrotliPlugin = require('brotli-webpack-plugin');
 const CompressionsPlugin = require('compression-webpack-plugin');
 const webpack = require('webpack');
+const {VanillaExtractPlugin} = require('@vanilla-extract/webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
@@ -16,7 +18,7 @@ const APP_PATH = path.resolve(__dirname, 'src/client');
 module.exports = {
   entry: APP_PATH,
   output: {
-    filename: '[name].[contenthash].js',
+    filename: 'chunk-[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist/client'),
     publicPath: '/',
   },
@@ -29,9 +31,15 @@ module.exports = {
         include: path.join(__dirname, 'src/client'),
         use: 'babel-loader',
       },
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
     ],
   },
   plugins: [
+    new VanillaExtractPlugin({allowRuntime: IS_DEV}),
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin({cleanStaleWebpackAssets: false}),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public/index.html'),

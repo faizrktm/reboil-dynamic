@@ -27,7 +27,7 @@ async function checkCrawler(
   }
 
   if (!SSR.isBrowserExist) {
-    await SSR.initialize();
+    await SSR.initialize(request);
   }
 
   const {html, status, ttRenderMs} = await SSR.render(

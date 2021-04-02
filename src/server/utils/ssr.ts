@@ -1,4 +1,5 @@
 import {BrowserContext, HTTPRequest} from 'puppeteer';
+import {FastifyRequest, FastifyLoggerInstance} from 'fastify';
 
 interface RenderResult {
   html: string | null;
@@ -33,17 +34,19 @@ const onRequest = (req: HTTPRequest) => {
 
 class Renderer {
   browser: BrowserContext | null = null;
+  logger: FastifyLoggerInstance | null = null;
 
-  async initialize(): Promise<void> {
-    console.log('Initialize Browser');
+  async initialize(request: FastifyRequest): Promise<void> {
+    this.logger = request.log;
+    this.logger?.info('Initialize Browser');
     const puppeteer = await import('puppeteer').then(
       (module) => module.default,
     );
     const browser = await puppeteer.launch({headless: true});
 
     browser.on('disconnected', () => {
-      console.log('Browser disconnected, try to re-initialize');
-      this.initialize();
+      this.logger?.info('Browser disconnected, try to re-initialize');
+      this.initialize(request);
     });
 
     // Initialize incognito browser
@@ -77,11 +80,11 @@ class Renderer {
     try {
       response = await page.goto(url, {waitUntil: 'networkidle0'});
     } catch (error) {
-      console.error(error);
+      this.logger?.error(error);
     }
 
     if (!response) {
-      console.error('response does not exist');
+      this.logger?.error('response does not exist');
       // This should only occur when the page is about:blank. See
       // https://github.com/GoogleChrome/puppeteer/blob/v1.5.0/docs/api.md#pagegotourl-options
       await page.close();
